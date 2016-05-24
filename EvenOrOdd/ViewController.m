@@ -45,10 +45,21 @@
 - (NSString *)isValidFormat:(NSString *)userInput {
     NSError *error;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\D" options:NSRegularExpressionCaseInsensitive error:&error];
-    NSUInteger numberOfMatches = [regex numberOfMatchesInString:userInput
+    
+    NSRegularExpression *regexForFloatsWithOnlyZeroes = [NSRegularExpression regularExpressionWithPattern:@"^\\d+[.]0+$" options:NSRegularExpressionCaseInsensitive error:&error];
+    
+    // Checks for stuff like 1.2345 or asdhjksd or %&*#*& or any other junk
+    NSUInteger numberOfMatchesForFloatsAndChars = [regex numberOfMatchesInString:userInput
                                                         options:0
                                                           range:NSMakeRange(0, [userInput length])];
-    if (numberOfMatches > 0) {
+    
+    // Checks for stuff like 1.000000 or 239182712.00 or anything like that. A decimal point followed by 0's
+    NSUInteger numberOfMatchesForIntWithZeroes = [regexForFloatsWithOnlyZeroes numberOfMatchesInString:userInput options:0 range:NSMakeRange(0, [userInput length])];
+    
+    if (numberOfMatchesForIntWithZeroes > 0) {
+        int intToProcess = [userInput intValue];
+        return [self oddOrEven:intToProcess];
+    } else if (numberOfMatchesForFloatsAndChars > 0) {
         return @"Please enter an integer";
     } else {
         int intToProcess = [userInput intValue];
