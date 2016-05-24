@@ -10,7 +10,7 @@
 
 @interface ViewController : UIViewController
 
--(NSString *)isValidFormat:(NSString *)userInput;
+-(NSString *)checkForFormat:(NSString *)userInput;
 -(NSString *)oddOrEven:(int)intToProcess;
 
 @property (weak, nonatomic) IBOutlet UILabel *oddOrEvenLabel;

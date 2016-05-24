@@ -42,7 +42,7 @@
 }
 
 
-- (NSString *)isValidFormat:(NSString *)userInput {
+- (NSString *)checkForFormat:(NSString *)userInput {
     NSError *error;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\D" options:NSRegularExpressionCaseInsensitive error:&error];
     
@@ -68,7 +68,7 @@
 }
 - (IBAction)evaluateInput:(id)sender {
     NSString *userInput = _userInput.text;
-    NSString *newLabelText = [self isValidFormat:userInput];
+    NSString *newLabelText = [self checkForFormat:userInput];
     _oddOrEvenLabel.text = newLabelText;
     
 }
